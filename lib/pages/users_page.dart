@@ -1,39 +1,29 @@
-import 'package:flutter_call_api/bloc/user_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'model/user_model.dart';
+import 'package:flutter_call_api/cubit/user_cubit.dart';
+import '../model/user_model.dart';
 
-class UsersPage extends StatefulWidget {
+class UsersPage extends StatelessWidget {
   @override
-  State<UsersPage> createState() => _UsersPageState();
-}
 
-class _UsersPageState extends State<UsersPage> {
-  final userBloc = UserBloc();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    userBloc.getListUser();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UserModel>?>(
-        stream: userBloc.userData.stream,
-        builder: (context, AsyncSnapshot<List<UserModel>?> snapshot) {
-          var listUser = snapshot.data;
+    return BlocBuilder<UserCubit, List<UserModel>>(
+        builder: (context, listUser) {
+          context.read<UserCubit>().getListUser();
           return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                UserModel? user = listUser?[index];
+                UserModel user = listUser[index];
                 return UserWidget(
-                    first_name: user?.firstName ?? '',
-                    last_name: user?.lastName ?? '',
-                    email: user?.email ?? '',
-                    avatar: user?.avatar ?? '');
+                  first_name: user.firstName,
+                  last_name: user.lastName,
+                  email: user.email,
+                  avatar: user.avatar,
+                );
               },
-              itemCount: listUser?.length ?? 0);
-        });
+            itemCount: listUser.length,
+          );
+        }
+    );
   }
 }
 
