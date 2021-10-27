@@ -3,38 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_call_api/cubit/user_cubit.dart';
 import '../model/user_model.dart';
 
-class UsersPage extends StatefulWidget {
-  const UsersPage({Key? key}) : super(key: key);
-
-  @override
-  State<UsersPage> createState() => _UsersPageState();
-}
-
-class _UsersPageState extends State<UsersPage> {
-  @override
+class UsersPage extends StatelessWidget {
   Widget build(BuildContext context) {
-    return BlocBuilder<UserCubit, List<UserModel>>(
-        builder: (context, listUser) {
-      context.read<UserCubit>().getListUser();
-      return ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          UserModel user = listUser[index];
-          return UserWidget(
-            first_name: user.firstName,
-            last_name: user.lastName,
-            email: user.email,
-            avatar: user.avatar,
+    return StreamBuilder<List<UserModel>>(
+        stream: context.read<UserCubit>().userDataStream,
+        builder: (context, snapshot) {
+          List<UserModel> listUser = snapshot.data ?? [];
+          return ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              UserModel user = listUser[index];
+              return UserWidget(
+                first_name: user.firstName,
+                last_name: user.lastName,
+                email: user.email,
+                avatar: user.avatar,
+              );
+            },
+            itemCount: listUser.length,
           );
-        },
-        itemCount: listUser.length,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+        });
   }
 }
 
