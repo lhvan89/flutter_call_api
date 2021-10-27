@@ -3,30 +3,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_call_api/cubit/user_cubit.dart';
 import '../model/user_model.dart';
 
-class UsersPage extends StatelessWidget {
-  @override
+class UsersPage extends StatefulWidget {
+  const UsersPage({Key? key}) : super(key: key);
 
+  @override
+  State<UsersPage> createState() => _UsersPageState();
+}
+
+class _UsersPageState extends State<UsersPage> {
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserCubit, List<UserModel>>(
         builder: (context, listUser) {
-          context.read<UserCubit>().getListUser();
-          return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                UserModel user = listUser[index];
-                return UserWidget(
-                  first_name: user.firstName,
-                  last_name: user.lastName,
-                  email: user.email,
-                  avatar: user.avatar,
-                );
-              },
-            itemCount: listUser.length,
+      context.read<UserCubit>().getListUser();
+      return ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          UserModel user = listUser[index];
+          return UserWidget(
+            first_name: user.firstName,
+            last_name: user.lastName,
+            email: user.email,
+            avatar: user.avatar,
           );
-        }
-    );
+        },
+        itemCount: listUser.length,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }
 
+// ignore: must_be_immutable
 class UserWidget extends StatelessWidget {
   String? first_name;
   String? last_name;
@@ -47,7 +59,7 @@ class UserWidget extends StatelessWidget {
               color: Colors.grey.withOpacity(0.3),
               spreadRadius: 3,
               blurRadius: 10,
-              offset: Offset(0, 1),
+              offset: const Offset(0, 1),
             )
           ]),
       height: 80,
@@ -57,19 +69,19 @@ class UserWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8),
               child: CircleAvatar(
                   backgroundImage: NetworkImage('$avatar'), radius: 30)),
-          SizedBox(width: 16),
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('$first_name $last_name',
-                    style:
-                        TextStyle(fontSize: 23, fontWeight: FontWeight.w500)),
-                SizedBox(height: 5),
-                Text('$email', style: TextStyle(fontSize: 17))
-              ],
-            ),
+          const SizedBox(width: 16),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '$first_name $last_name',
+                style:
+                    const TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 5),
+              Text('$email', style: const TextStyle(fontSize: 17))
+            ],
           ),
         ],
       ),

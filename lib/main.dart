@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
           title: Text('Users'),
         ),
         body: BlocProvider(
-          create: (_) => UserCubit(),
+            create: (_) => UserCubit(),
             child: UsersPage()
         ),
       ),
