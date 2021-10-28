@@ -1,11 +1,14 @@
+import 'package:flutter_call_api/cubit/base_cubit.dart';
 import 'package:flutter_call_api/services/user_router.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_call_api/model/user_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_call_api/services/api_request.dart';
 
-class UserCubit extends Cubit<bool> {
-  UserCubit(): super(false) {
+class UserCubit extends BaseCubit {
+
+  @override
+  void initCubit() {
+    super.initCubit();
     getListUser();
   }
 

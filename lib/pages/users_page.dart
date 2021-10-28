@@ -1,28 +1,31 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_call_api/cubit/user_cubit.dart';
 import '../model/user_model.dart';
+import 'package:flutter_call_api/base_stateless_widget.dart';
 
-class UsersPage extends StatelessWidget {
-  Widget build(BuildContext context) {
+class UsersPage extends BaseStatelessWidget<UserCubit> {
+  UsersPage() : super(cubit: UserCubit(), title: 'USERS');
+
+  @override
+  Widget body(BuildContext context) {
     return StreamBuilder<List<UserModel>?>(
-        stream: context.read<UserCubit>().userDataStream,
+      stream: cubit.userDataStream,
         builder: (context, snapshot) {
           List<UserModel> listUser = snapshot.data ?? [];
           return snapshot.connectionState == ConnectionState.waiting
               ? const Center(child: CircularProgressIndicator())
               : ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    UserModel user = listUser[index];
-                    return UserWidget(
-                      first_name: user.firstName,
-                      last_name: user.lastName,
-                      email: user.email,
-                      avatar: user.avatar,
-                    );
-                  },
-                  itemCount: listUser.length,
-                );
+            itemBuilder: (BuildContext context, int index) {
+              UserModel user = listUser[index];
+              return UserWidget(
+                first_name: user.firstName,
+                last_name: user.lastName,
+                email: user.email,
+                avatar: user.avatar,
+              );
+            },
+            itemCount: listUser.length,
+          );
         });
   }
 }

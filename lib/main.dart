@@ -1,5 +1,3 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_call_api/cubit/user_cubit.dart';
 import 'package:flutter_call_api/pages/users_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('USERS'),
-        ),
-        body: BlocProvider(
-            create: (_) => UserCubit(),
-            child: UsersPage()
-        ),
+        body: UsersPage(),
       ),
     );
   }
