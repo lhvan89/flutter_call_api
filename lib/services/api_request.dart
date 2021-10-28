@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter_call_api/services/response_serialization.dart';
-
-
 import 'api_base_router.dart';
 
 class ApiClient {
