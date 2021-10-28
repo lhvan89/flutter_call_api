@@ -5,22 +5,24 @@ import '../model/user_model.dart';
 
 class UsersPage extends StatelessWidget {
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UserModel>>(
+    return StreamBuilder<List<UserModel>?>(
         stream: context.read<UserCubit>().userDataStream,
         builder: (context, snapshot) {
           List<UserModel> listUser = snapshot.data ?? [];
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              UserModel user = listUser[index];
-              return UserWidget(
-                first_name: user.firstName,
-                last_name: user.lastName,
-                email: user.email,
-                avatar: user.avatar,
-              );
-            },
-            itemCount: listUser.length,
-          );
+          return snapshot.connectionState == ConnectionState.waiting
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    UserModel user = listUser[index];
+                    return UserWidget(
+                      first_name: user.firstName,
+                      last_name: user.lastName,
+                      email: user.email,
+                      avatar: user.avatar,
+                    );
+                  },
+                  itemCount: listUser.length,
+                );
         });
   }
 }

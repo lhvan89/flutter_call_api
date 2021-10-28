@@ -1,4 +1,6 @@
-class UserModel {
+import 'package:flutter_call_api/services/response_serialization.dart';
+
+class UserModel extends ResponseSerializable<UserModel> {
   int? id;
   String? email;
   String? firstName;
@@ -22,4 +24,9 @@ class UserModel {
     "last_name": lastName,
     "avatar": avatar,
   };
+
+  @override
+  UserModel? fromJson(json) {
+    return UserModel.fromJson(json);
+  }
 }
