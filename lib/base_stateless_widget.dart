@@ -9,8 +9,7 @@ abstract class BaseStatelessWidget<C extends BaseCubit> extends StatelessWidget 
   final C cubit;
   bool _isInit = true;
 
-  BaseStatelessWidget({this.title, required this.cubit}) {
-  }
+  BaseStatelessWidget({this.title, required this.cubit});
 
   Widget body(BuildContext context);
 

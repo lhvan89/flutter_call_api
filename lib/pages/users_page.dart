@@ -10,23 +10,24 @@ class UsersPage extends BaseStatelessWidget<UserCubit> {
   Widget body(BuildContext context) {
     return StreamBuilder<List<UserModel>?>(
       stream: cubit.userDataStream,
-        builder: (context, snapshot) {
-          List<UserModel> listUser = snapshot.data ?? [];
-          return snapshot.connectionState == ConnectionState.waiting
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              UserModel user = listUser[index];
-              return UserWidget(
-                first_name: user.firstName,
-                last_name: user.lastName,
-                email: user.email,
-                avatar: user.avatar,
+      builder: (context, snapshot) {
+        List<UserModel> listUser = snapshot.data ?? [];
+        return snapshot.connectionState == ConnectionState.waiting
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  UserModel user = listUser[index];
+                  return UserWidget(
+                    first_name: user.firstName,
+                    last_name: user.lastName,
+                    email: user.email,
+                    avatar: user.avatar,
+                  );
+                },
+                itemCount: listUser.length,
               );
-            },
-            itemCount: listUser.length,
-          );
-        });
+      },
+    );
   }
 }
 
